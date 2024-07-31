@@ -42,17 +42,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
-    'core.user',
     "corsheaders",
     "rest_framework",
-  
+
     'phonenumber_field',
     'core.user.apps.UserConfig',
-    
-    
-    
-    
-    
+
+
+
+
+
 ]
 
 
@@ -66,15 +65,14 @@ PHONENUMBER_DB_FORMAT = 'NATIONAL'
 PHONENUMBER_DEFAULT_REGION = 'NG'
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
+   'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',  # Only keep this once
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'CoreRoot.urls'
@@ -99,8 +97,8 @@ TEMPLATES = [
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 
-SESSION_COOKIE_AGE = 1209600 
-SESSION_SAVE_EVERY_REQUEST = True 
+SESSION_COOKIE_AGE = 1209600
+SESSION_SAVE_EVERY_REQUEST = True
 
 WSGI_APPLICATION = 'CoreRoot.wsgi.application'
 
@@ -130,7 +128,7 @@ DATABASES = {
         'USER': 'findfuel',
         'PASSWORD': 'na52blueivy',
         'HOST': 'localhost',
-        'PORT': '5432',       
+        'PORT': '5432',
     }
 }
 AUTHENTICATION_BACKENDS = [
@@ -157,7 +155,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'core_user.User'
+AUTH_USER_MODEL = 'core.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
