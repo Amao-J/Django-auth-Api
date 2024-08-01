@@ -11,7 +11,11 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 from datetime import timedelta
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
+# Load environment variables from the .env file
+load_dotenv()
 
 
 
@@ -23,7 +27,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ek#*omev_%dk6i4mu_r)b-u@#efto7to*^4h$%biafrc4!yp=r'
+
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -47,7 +52,9 @@ INSTALLED_APPS = [
     "rest_framework",
 
     'phonenumber_field',
-    'core.user.apps.UserConfig',
+   
+  'core.user.apps.UserConfig',
+    
 
 
 
@@ -125,13 +132,28 @@ EMAIL_HOST_PASSWORD = 'flquwlkigzugomuf'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'findfuel_db',
-        'USER': 'findfuel',
-        'PASSWORD': 'na52blueivy',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': os.getenv('POSTGRES_DATABASE'),
+        'USER': os.getenv('POSTGRES_USER'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'HOST': os.getenv('POSTGRES_HOST'),
+        'PORT': '5432',  # Default port for PostgreSQL
+        'OPTIONS': {
+            'sslmode': 'require' if os.getenv('POSTGRES_URL_NO_SSL') is None else 'prefer',
+        },
+        'CONN_MAX_AGE': 600,  # Use a pool of connections with a max age of 600 seconds
     }
 }
+
+# Optional: Access additional environment variables if needed
+POSTGRES_URL = os.getenv('POSTGRES_URL')
+POSTGRES_PRISMA_URL = os.getenv('POSTGRES_PRISMA_URL')
+POSTGRES_URL_NO_SSL = os.getenv('POSTGRES_URL_NO_SSL')
+POSTGRES_URL_NON_POOLING = os.getenv('POSTGRES_URL_NON_POOLING')
+
+
+
+
+
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
@@ -156,7 +178,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'core.user.User'
+AUTH_USER_MODEL = 'core_user.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
